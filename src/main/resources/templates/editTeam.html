@@ -1,0 +1,183 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:text-align="http://www.w3.org/1999/xhtml">
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cosmo/bootstrap.min.css" />
+    <script src= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ></script>
+    <link href='https://fonts.googleapis.com/css?family=Playfair Display' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title> Edit Player</title>
+    <style>
+    body{
+     background-color: white;
+     padding: 0;
+     margin: 0;
+     overflow-x: hidden;
+     text-align: center;
+}
+
+header{
+     background-color: black;
+     padding: 30px;
+     box-shadow: 0 0 15px #000;
+}
+
+header li{
+     display: inline;
+     padding-left: 35px;
+}
+
+header li a{
+     color: white;
+     font-size:22px;
+     text-decoration: none;
+     padding: 10px;
+     transition: .3s ease;
+}
+
+header li a: hover{
+     color: #1b5e20;
+}
+
+header ul #adminLogin a:hover{
+     background-color: #1b5e20;
+}
+
+header ul #logo a{
+    color: white;
+    float: left;
+    top: -7px;
+    font-family: 'Playfair Display';
+    font-size: 20px;
+}
+
+
+ table {
+  border-collapse: collapse;
+  width: 90%;
+  border: 1px solid grey;
+  box-shadow: 0 0 10px #000;
+ }
+
+ table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+th, td {
+  padding: 18px;
+  text-align: center;
+}
+tr{
+   border: 1px solid grey;
+}
+
+
+</style>
+</head>
+<body>
+<header>
+    <ul>
+        <li id="logo"> <a aria-current="page" href="/"> IPL Management System </a> </li>
+        <li><a th:href="@{'/editTeam'}">Team Management</a></li>
+        <li><a th:href="@{'/editPlayers'}">Player Management</a></li>
+        <li><a th:href="@{'/editMatch'}">Match Management</a></li>
+        <li><a th:href="@{'/EditListScore'}">Score Board</a></li>
+    </ul>
+</header>
+<tr> </tr>
+<br>
+
+<br> <h1><b>Team Management</b></h1><br>
+<div class="alert alert-success" id="success-alert" role="alert" th:text="${success}" th:if="${success}"></div>
+
+<div class="alert alert-success"  th:text="${message}" th:if="${message}"> </div>
+<div class="alert alert-success"  th:text="${messageEdit}" th:if="${messageEdit}"> </div>
+
+<!--<script>-->
+<!--    $(document).ready (function(){-->
+<!--   $("#success-alert").hide();-->
+<!--       $("#success-alert").alert();-->
+<!--      window.setTimeout(function () {-->
+<!--         $("#success-alert").alert('close');-->
+<!--      }, 2000);-->
+
+<!--});-->
+
+<!--</script>-->
+
+<br>
+<td>
+    <a th:href="@{'/addTeam/'}"> <input type="submit" value="Add Team" style="color:blue">
+    </a>
+</td>
+<br>
+<br>
+<div id="table-scroll" >
+
+<table align="center" class="css-serial" >
+    <tr >
+        <th>S.No</th>
+        <th>Team</th>
+        <th>Captain</th>
+        <th>State</th>
+        <th>Edit </th>
+        <th>Delete  </th>
+    </tr>
+
+    <tr th:each="team:${teamList}" style="color:black;">
+        <td th:text></td>
+        <td th:text="${team.teamname}">
+            <!--      <a th:href="@{/showPlayers/{team_id}(team_id=${Team.id})}">[[${Team.team_name}]]</a>-->
+        </td>
+        <td th:text="${team.captain}"></td>
+        <td th:text="${team.state}"></td>
+
+        <td>
+            <a  th:href="@{'/teamEdit/'+ ${team.id}}"><i class="fa fa-edit" style="font-size:24px; color:green"></i></a>
+        </td>
+
+        <td>
+            <a th:href="@{'/deleteTeam/' + ${team.id}}"><i class="fa fa-trash-o" style="font-size:24px; color:red"></i></a>
+        </td>
+
+    </tr>
+</table>
+</div>
+<style>
+     .css-serial {
+  counter-reset: serial-number;  /* Set the serial number counter to 0 */
+}
+
+.css-serial td:first-child:before {
+  counter-increment: serial-number;  /* Increment the serial number counter */
+  content: counter(serial-number);  /* Display the counter */
+  }
+
+#table-scroll {
+  height:500px;
+  overflow:auto;
+  margin-top:20px;
+}
+#footer {
+            position: fixed;
+
+            bottom: 25;
+            width: 100%;
+            /* Height of the footer*/
+            height: 40px;
+
+        }
+ </style>
+<footer class="footer navbar-fixed-bottom" id="footer">
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color:  black">
+
+        <a class="text-white" href="https://mdbootstrap.com/">© 2021 Copyright: Ipl.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+<br>
+<br>
+</body>
+</html>

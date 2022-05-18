@@ -1,0 +1,290 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:text-align="http://www.w3.org/1999/xhtml">
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cosmo/bootstrap.min.css" />
+    <script src= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ></script>
+    <link href='https://fonts.googleapis.com/css?family=Playfair Display' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title> Edit Player</title>
+    <style>
+    body{
+     background-color: white;
+     padding: 0;
+     margin: 0;
+     overflow-x: hidden;
+     text-align: center;
+}
+
+header{
+     background-color: black;
+     padding: 30px;
+     box-shadow: 0 0 15px #000;
+}
+
+header li{
+     display: inline;
+     padding-left: 35px;
+}
+
+header li a{
+     color: white;
+     font-size:22px;
+     text-decoration: none;
+     padding: 10px;
+     transition: .3s ease;
+}
+
+header li a: hover{
+     color: #1b5e20;
+}
+
+header ul #adminLogin a:hover{
+     background-color: #1b5e20;
+}
+
+header ul #logo a{
+    color: white;
+    float: left;
+    top: -7px;
+    font-family: 'Playfair Display';
+    font-size: 20px;
+}
+
+
+ table {
+  border-collapse: collapse;
+  width: 90%;
+  border: 1px solid grey;
+  box-shadow: 0 0 10px #000;
+ }
+
+ table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+th, td {
+  padding: 18px;
+  text-align: center;
+}
+tr{
+   border: 1px solid grey;
+}
+
+
+</style>
+</head>
+<body>
+<header>
+    <ul>
+        <li id="logo"> <a aria-current="page" href="/"> IPL Management System </a> </li>
+        <li><a th:href="@{'/editTeam'}">Team Management</a></li>
+        <li><a th:href="@{'/editPlayers'}">Player Management</a></li>
+        <li><a th:href="@{'/editMatch'}">Match Management</a></li>
+        <li><a th:href="@{'/EditListScore'}">Score Board</a></li>
+    </ul>
+</header>
+<tr> </tr>
+<br>
+
+<br> <h1><b>Player Management</b></h1><br>
+<br>
+
+<div class="alert alert-success"  role="alert" th:text="${Addmessage}" th:if="${Addmessage}"></div>
+<div class="alert alert-success"  role="alert" th:text="${deletemessage}" th:if="${deletemessage}"></div>
+<div class="alert alert-success"  role="alert" th:text="${Updatemessage}" th:if="${Updatemessage}"></div>
+
+<td>
+    <a th:href="@{'/addPlayers/'}"> <input type="submit" value="Add Player" style="color:blue">
+    </a>
+</td>
+<br>
+<br>
+<div id="table-scroll">
+<table align="center" class="css-serial" >
+    <tr >
+        <th>S.No</th>
+        <th>Player Name</th>
+        <th>Player Team</th>
+        <th>Player Role</th>
+         <th>Edit Player</th>
+        <th>Delete Player</th>
+    </tr>
+    <tr th:each="player:${playerList}" style="color:black;">
+        <td th:text></td>
+        <td th:text="${player.name}">
+            <!--      <a th:href="@{/showPlayers/{team_id}(team_id=${Team.id})}">[[${Team.team_name}]]</a>-->
+        </td>
+        <td th:text="${player.team.teamname}"></td>
+        <td th:text="${player.player_role}"></td>
+
+        <td>
+            <a  th:href="@{'/edit/' + ${player.id}}"><i class="fa fa-edit" style="font-size:24px; color:green"></i></a>
+        </td>
+        <td>
+        <th:href onclick="document.getElementById('id01').style.display='block'"><i class="fa fa-trash-o" style="font-size:24px; color:red"></i> </th:href>
+
+        <div id="id01" class="modal">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <form class="modal-content" action="/action_page.php">
+                <div class="container">
+                    <p>Are you sure you want to delete your Player?</p>
+
+                    <div class="clearfix">
+                        <button type="button" class="cancelbtn" text="white"><a th:href="@{'/editPlayers'}"><b>Cancel</b></a></button>
+                        <button type="button" class="deletebtn" text="white"> <a th:href="@{'/delete/' + ${player.id}}"><b>delete</b></a>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        </td>
+<!--        <td>-->
+<!--            <a th:href="@{'/delete/' + ${player.id}}"><i class="fa fa-trash-o" style="font-size:24px; color:red"></i></a>-->
+<!--        </td>-->
+
+    </tr>
+</table>
+</div>
+
+<!--style for  serialno. , scrollbar , footer-->
+<style>
+     .css-serial {
+  counter-reset: serial-number;  /* Set the serial number counter to 0 */
+}
+
+.css-serial td:first-child:before {
+  counter-increment: serial-number;  /* Increment the serial number counter */
+  content: counter(serial-number);  /* Display the counter */
+}
+#footer {
+            position: fixed;
+
+            bottom: 28;
+            width: 100%;
+            /* Height of the footer*/
+            height: 40px;
+
+        }
+        #table-scroll {
+  height:500px;
+  overflow:auto;
+  margin-top:20px;
+}
+
+* {box-sizing: border-box}
+
+/* Set a style for all buttons */
+button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity:1;
+}
+
+/* Float cancel and delete buttons and add an equal width */
+.cancelbtn, .deletebtn {
+  float: center;
+  width: 20%;
+}
+
+/* Add a color to the cancel button */
+.cancelbtn {
+  background-color: #ccc;
+  color: black;
+}
+
+/* Add a color to the delete button */
+.deletebtn {
+  background-color: #f44336;
+}
+
+/* Add padding and center-align text to the container */
+.container {
+  padding: 16px;
+  text-align: center;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 60%;
+  top: 50%;
+  width: 30%; /* Full width */
+  height: 20%; /* Full height */
+<!--  overflow: auto; /* Enable scroll if needed */-->
+  background-color: #474e5d;
+<!--  padding-top: 50px;-->
+}
+
+
+
+/* Style the horizontal ruler */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* The Modal Close Button (x) */
+.close {
+  position: absolute;
+  right: 35px;
+  top: 15px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #f1f1f1;
+}
+
+.close:hover,
+.close:focus {
+  color: #f44336;
+  cursor: pointer;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Change styles for cancel button and delete button on extra small screens */
+@media screen and (max-width: 300px) {
+  .cancelbtn, .deletebtn {
+    width: 100%;
+  }
+}
+</style>
+
+<script>
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+<footer class="footer navbar-fixed-bottom" id="footer">
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color:  black">
+
+        <a class="text-white" href="https://mdbootstrap.com/">© 2021 Copyright: Ipl.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+</body>
+</html>
